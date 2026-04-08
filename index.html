@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ForexBack — Back Office Portal</title>
   <link rel="stylesheet" href="assets/css/styles.css" />
+  <!-- Anti-flash: apply theme before first paint -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('forexback-theme');
+      var isDark;
+      if (saved === 'dark')       { isDark = true; }
+      else if (saved === 'light') { isDark = false; }
+      else {
+        var h = new Date().getHours();
+        isDark = !(h >= 7 && h < 19); // night = dark
+      }
+      if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
 </head>
 <body>
 
@@ -214,6 +228,26 @@
         </div>
 
         <div class="topbar-actions">
+
+          <!-- Dark mode toggle -->
+          <div class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode (auto by daylight)">
+            <div class="theme-toggle-track">
+              <div class="theme-toggle-knob">
+                <!-- Sun -->
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 7a5 5 0 1 0 0 10A5 5 0 0 0 12 7zm0-5a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1zm0 17a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm10-9a1 1 0 0 1 0 2h-1a1 1 0 0 1 0-2h1zM4 11a1 1 0 0 1 0 2H3a1 1 0 0 1 0-2h1zm14.66-6.07a1 1 0 0 1 0 1.41l-.71.71a1 1 0 1 1-1.41-1.41l.71-.71a1 1 0 0 1 1.41 0zM6.05 17.54a1 1 0 0 1 0 1.41l-.71.71a1 1 0 1 1-1.41-1.41l.71-.71a1 1 0 0 1 1.41 0zm12.62 1.41a1 1 0 0 1-1.41 0l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41zM5.34 6.34a1 1 0 0 1-1.41 0l-.71-.71A1 1 0 1 1 4.63 4.22l.71.71a1 1 0 0 1 0 1.41z"/>
+                </svg>
+                <!-- Moon -->
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+                </svg>
+              </div>
+            </div>
+            <span class="theme-toggle-label" id="theme-label">
+              Auto<span class="auto-badge" id="auto-badge">AUTO</span>
+            </span>
+          </div>
+
           <div class="topbar-btn">
             <div class="notif-dot"></div>
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>

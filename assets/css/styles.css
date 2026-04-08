@@ -5,6 +5,9 @@
   padding: 0;
 }
 
+/* ════════════════════════════════
+   LIGHT THEME TOKENS (default)
+════════════════════════════════ */
 :root {
   --bg:          #f0f2f7;
   --sidebar-bg:  #0f1623;
@@ -21,6 +24,50 @@
   --radius:      12px;
   --shadow:      0 2px 12px rgba(0, 0, 0, .08);
   --trans:       .2s ease;
+
+  /* toggle-specific */
+  --toggle-bg:        #e2e8f0;
+  --toggle-knob:      #ffffff;
+  --toggle-icon-sun:  1;
+  --toggle-icon-moon: 0;
+}
+
+/* ════════════════════════════════
+   DARK THEME TOKENS
+   Dark-luxury: deep surfaces, blue-grey tones, vivid accent
+════════════════════════════════ */
+[data-theme="dark"] {
+  --bg:          #0d1117;
+  --sidebar-bg:  #080c12;
+  --accent:      #5b8df8;
+  --accent-lite: #1a2540;
+  --text:        #e6edf3;
+  --muted:       #8b949e;
+  --card:        #161b22;
+  --border:      #30363d;
+  --shadow:      0 2px 16px rgba(0, 0, 0, .4);
+
+  /* toggle-specific */
+  --toggle-bg:        #30363d;
+  --toggle-knob:      #5b8df8;
+  --toggle-icon-sun:  0;
+  --toggle-icon-moon: 1;
+}
+
+/* Smooth theme transition on all elements */
+body,
+body * {
+  transition:
+    background-color .3s ease,
+    border-color     .3s ease,
+    color            .15s ease,
+    box-shadow       .3s ease;
+}
+
+/* Prevent transition flash on page load */
+body.no-transition,
+body.no-transition * {
+  transition: none !important;
 }
 
 body {
@@ -29,6 +76,36 @@ body {
   color: var(--text);
   min-height: 100vh;
 }
+
+/* ── Dark mode — auth gradient stays dark regardless ── */
+[data-theme="dark"] .auth-wrap {
+  background: linear-gradient(135deg, #060a10 0%, #0d1b2e 60%, #0f2040 100%);
+}
+
+[data-theme="dark"] .auth-card {
+  background: var(--card);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .6);
+}
+
+[data-theme="dark"] .form-group input {
+  background: #0d1117;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] tr:hover td { background: #1c2128; }
+[data-theme="dark"] th          { background: #0d1117; }
+
+[data-theme="dark"] .topbar-search { background: #0d1117; }
+[data-theme="dark"] .topbar-btn    { background: #1c2128; }
+[data-theme="dark"] .topbar-btn:hover {
+  background: var(--accent-lite);
+  border-color: var(--accent);
+}
+
+[data-theme="dark"] .qa-btn          { background: #1c2128; }
+[data-theme="dark"] .qa-btn:hover    { background: var(--accent-lite); }
+[data-theme="dark"] .kyc-item:hover  { background: #1c2128; }
 
 /* ── Utility ── */
 .hidden { display: none !important; }
@@ -567,6 +644,98 @@ td .sub    { font-size: 11px; color: var(--muted); margin-top: 2px; }
 
 .qa-btn:hover { border-color: var(--accent); background: var(--accent-lite); color: var(--accent); }
 .qa-btn svg  { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* ── Dark-mode stat icon tints ── */
+[data-theme="dark"] .stat-icon.blue  { background: #1a2540; }
+[data-theme="dark"] .stat-icon.green { background: #0d2118; }
+[data-theme="dark"] .stat-icon.warn  { background: #231a0a; }
+[data-theme="dark"] .stat-icon.red   { background: #220d0d; }
+
+/* ════════════════════════════════
+   THEME TOGGLE PILL
+════════════════════════════════ */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  padding: 4px 2px;
+}
+
+/* The pill track */
+.theme-toggle-track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 99px;
+  background: var(--toggle-bg);
+  border: 1.5px solid var(--border);
+  transition: background .3s ease, border-color .3s ease;
+  flex-shrink: 0;
+}
+
+/* The sliding knob */
+.theme-toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--toggle-knob);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .25);
+  transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), background .3s ease;
+  display: grid;
+  place-items: center;
+}
+
+[data-theme="dark"] .theme-toggle-knob {
+  transform: translateX(20px);
+}
+
+/* Sun icon (visible in light mode) */
+.theme-toggle-knob .icon-sun {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  color: #f59e0b;
+  opacity: var(--toggle-icon-sun);
+  transition: opacity .2s ease;
+}
+
+/* Moon icon (visible in dark mode) */
+.theme-toggle-knob .icon-moon {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  color: #e6edf3;
+  opacity: var(--toggle-icon-moon);
+  transition: opacity .2s ease;
+}
+
+/* Auto badge — shown when in auto mode */
+.theme-toggle-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color .2s ease;
+}
+
+.theme-toggle-label .auto-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  background: var(--accent-lite);
+  color: var(--accent);
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar       { width: 5px; height: 5px; }
