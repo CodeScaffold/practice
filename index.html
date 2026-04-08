@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ForexBack — Back Office Portal</title>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════
+       LOGIN SCREEN
+  ══════════════════════════════════════ -->
+  <div id="screen-login" class="auth-wrap">
+    <div class="auth-card">
+
+      <div class="auth-brand">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm14 3a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+        </div>
+        <div class="logo-text">Forex<span>Back</span></div>
+      </div>
+
+      <div class="auth-title">Welcome back</div>
+      <div class="auth-sub">Sign in to your back office portal</div>
+
+      <div class="form-group">
+        <label for="login-email">Email address</label>
+        <input type="email" id="login-email" placeholder="you@brokerage.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="login-pass">Password</label>
+        <input type="password" id="login-pass" placeholder="••••••••" />
+        <div class="error-msg" id="login-error">Please enter your email and password.</div>
+      </div>
+
+      <button class="btn-primary" onclick="doLogin()">Sign In</button>
+
+      <div class="auth-footer">
+        Don't have an account? <a onclick="show('screen-signup')">Sign Up</a>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       SIGN UP SCREEN
+  ══════════════════════════════════════ -->
+  <div id="screen-signup" class="auth-wrap hidden">
+    <div class="auth-card">
+
+      <div class="auth-brand">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm14 3a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+        </div>
+        <div class="logo-text">Forex<span>Back</span></div>
+      </div>
+
+      <div class="auth-title">Create account</div>
+      <div class="auth-sub">Join the back office team</div>
+
+      <div class="form-group">
+        <label for="signup-name">Full name</label>
+        <input type="text" id="signup-name" placeholder="Jane Smith" />
+      </div>
+
+      <div class="form-group">
+        <label for="signup-email">Email address</label>
+        <input type="email" id="signup-email" placeholder="you@brokerage.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="signup-pass">Password</label>
+        <input type="password" id="signup-pass" placeholder="••••••••" />
+        <div class="error-msg" id="signup-error">Please fill in all fields.</div>
+      </div>
+
+      <button class="btn-primary" onclick="doSignup()">Create Account</button>
+
+      <div class="auth-footer">
+        Already have an account? <a onclick="show('screen-login')">Sign In</a>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       DASHBOARD SCREEN
+  ══════════════════════════════════════ -->
+  <div id="screen-dashboard" class="app hidden">
+
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar">
+
+      <div class="sb-brand">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3zm11 0h7v7h-7zM3 14h7v7H3zm14 3a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
+        </div>
+        <div class="logo-text">Forex<span>Back</span></div>
+      </div>
+
+      <!-- Main -->
+      <div class="sb-section">
+        <div class="sb-section-label">Main</div>
+        <a class="nav-item active" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Overview
+        </a>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9H5l7 7z"/></svg>
+          Withdrawals
+          <span class="badge">12</span>
+        </a>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 15h14L12 8z"/></svg>
+          Deposits
+        </a>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
+          Internal Transfers
+        </a>
+      </div>
+
+      <!-- Compliance -->
+      <div class="sb-section">
+        <div class="sb-section-label">Compliance</div>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          KYC / AML Review
+          <span class="badge">7</span>
+        </a>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+          Documents
+        </a>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+          Suspicious Activity
+          <span class="badge">3</span>
+        </a>
+      </div>
+
+      <!-- Accounts -->
+      <div class="sb-section">
+        <div class="sb-section-label">Accounts</div>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          Client Accounts
+        </a>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 10v7h3v-7H4zm6 0v7h3v-7h-3zm-8 12h19v-3H2v3zm14-12v7h3v-7h-3zM11.5 1L2 6v2h19V6l-9.5-5z"/></svg>
+          Account Balances
+        </a>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7a6.995 6.995 0 0 1-5.82-3.11l-1.46 1.45A9 9 0 1 0 13 3zm-1 5v5l4.28 2.54.72-1.21L13 12V8h-1z"/></svg>
+          Transaction History
+        </a>
+      </div>
+
+      <!-- Reports -->
+      <div class="sb-section">
+        <div class="sb-section-label">Reports</div>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 9.2h3V19H5V9.2zM10.6 5h2.8v14h-2.8V5zm5.6 8H19v6h-2.8v-6z"/></svg>
+          Daily Reports
+        </a>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/></svg>
+          Export Data
+        </a>
+      </div>
+
+      <!-- System -->
+      <div class="sb-section">
+        <div class="sb-section-label">System</div>
+        <a class="nav-item" onclick="setNav(this)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32a.49.49 0 0 0-.61-.18l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.49.49 0 0 0-.61.18L2.98 9.72a.48.48 0 0 0 .12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.41.29.61.18l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.49 0 .61-.18l1.92-3.32a.48.48 0 0 0-.12-.61l-2.01-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z"/></svg>
+          Settings
+        </a>
+      </div>
+
+      <!-- User footer -->
+      <div class="sb-footer">
+        <div class="sb-user">
+          <div class="avatar" id="sb-initials">JD</div>
+          <div class="sb-user-info">
+            <div class="sb-user-name" id="sb-name">Jane Doe</div>
+            <div class="sb-user-role">Back Office Staff</div>
+          </div>
+          <button class="logout-btn" onclick="doLogout()" title="Sign out">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+
+    <!-- ── Main content ── -->
+    <div class="main">
+
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-title">
+          Overview &nbsp;<span>/ Back Office</span>
+        </div>
+
+        <div class="topbar-search">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          <input type="text" placeholder="Search clients, transactions…" />
+        </div>
+
+        <div class="topbar-actions">
+          <div class="topbar-btn">
+            <div class="notif-dot"></div>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4a1.5 1.5 0 0 0-3 0v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+          </div>
+          <div class="topbar-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+          </div>
+          <div class="topbar-avatar" id="top-initials">JD</div>
+        </div>
+      </header>
+
+      <!-- Page content -->
+      <div class="content">
+        <div class="page-date" id="page-date"></div>
+
+        <!-- ── Stat cards ── -->
+        <div class="stat-grid">
+
+          <div class="stat-card blue">
+            <div class="stat-top">
+              <div class="stat-label">Pending Withdrawals</div>
+              <div class="stat-icon blue">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/></svg>
+              </div>
+            </div>
+            <div class="stat-val">12</div>
+            <div class="stat-sub">Total value <b>$84,320</b></div>
+          </div>
+
+          <div class="stat-card warn">
+            <div class="stat-top">
+              <div class="stat-label">KYC Pending</div>
+              <div class="stat-icon warn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+            </div>
+            <div class="stat-val">7</div>
+            <div class="stat-sub"><b class="down">+3</b> since yesterday</div>
+          </div>
+
+          <div class="stat-card green">
+            <div class="stat-top">
+              <div class="stat-label">Deposits Today</div>
+              <div class="stat-icon green">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 15h14L12 8z"/></svg>
+              </div>
+            </div>
+            <div class="stat-val">$142k</div>
+            <div class="stat-sub"><b>↑ 18%</b> vs yesterday</div>
+          </div>
+
+          <div class="stat-card red">
+            <div class="stat-top">
+              <div class="stat-label">SAR Alerts</div>
+              <div class="stat-icon red">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+              </div>
+            </div>
+            <div class="stat-val">3</div>
+            <div class="stat-sub">Require immediate review</div>
+          </div>
+
+        </div>
+
+        <!-- ── Middle row ── -->
+        <div class="lower-grid">
+
+          <!-- Pending Withdrawals table -->
+          <div class="widget">
+            <div class="widget-head">
+              <h3>Pending Withdrawal Requests</h3>
+              <a class="see-all">View all →</a>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Amount</th>
+                  <th>Method</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div>Oliver Chen</div>
+                    <div class="sub">ACC-40221</div>
+                  </td>
+                  <td><div class="amount">$12,500</div></td>
+                  <td>Wire</td>
+                  <td><span class="pill pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div>Sarah Muller</div>
+                    <div class="sub">ACC-38819</div>
+                  </td>
+                  <td><div class="amount">$4,200</div></td>
+                  <td>SEPA</td>
+                  <td><span class="pill review">In Review</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div>James Kowalski</div>
+                    <div class="sub">ACC-51002</div>
+                  </td>
+                  <td><div class="amount">$31,000</div></td>
+                  <td>Wire</td>
+                  <td><span class="pill pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div>Yuki Tanaka</div>
+                    <div class="sub">ACC-29445</div>
+                  </td>
+                  <td><div class="amount">$8,750</div></td>
+                  <td>Crypto</td>
+                  <td><span class="pill approved">Approved</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div>Elena Rossi</div>
+                    <div class="sub">ACC-61237</div>
+                  </td>
+                  <td><div class="amount">$2,870</div></td>
+                  <td>Card</td>
+                  <td><span class="pill rejected">Rejected</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- KYC / AML queue -->
+          <div class="widget">
+            <div class="widget-head">
+              <h3>KYC / AML Review Queue</h3>
+              <a class="see-all">View all →</a>
+            </div>
+            <div class="kyc-list">
+              <div class="kyc-item">
+                <div class="kyc-avatar" style="background:linear-gradient(135deg,#6a4df0,#3b6ef8)">MK</div>
+                <div class="kyc-info">
+                  <div class="kyc-name">Mikhail Kozlov</div>
+                  <div class="kyc-doc">Passport + Proof of Address</div>
+                </div>
+                <div class="kyc-meta">
+                  <div class="kyc-time">2 hrs ago</div>
+                  <div class="kyc-action">Review →</div>
+                </div>
+              </div>
+              <div class="kyc-item">
+                <div class="kyc-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">AP</div>
+                <div class="kyc-info">
+                  <div class="kyc-name">Amara Patel</div>
+                  <div class="kyc-doc">National ID — image blurry</div>
+                </div>
+                <div class="kyc-meta">
+                  <div class="kyc-time">4 hrs ago</div>
+                  <div class="kyc-action">Review →</div>
+                </div>
+              </div>
+              <div class="kyc-item">
+                <div class="kyc-avatar" style="background:linear-gradient(135deg,#10b981,#3b6ef8)">RL</div>
+                <div class="kyc-info">
+                  <div class="kyc-name">Ricardo Lopez</div>
+                  <div class="kyc-doc">Source of Funds declaration</div>
+                </div>
+                <div class="kyc-meta">
+                  <div class="kyc-time">6 hrs ago</div>
+                  <div class="kyc-action">Review →</div>
+                </div>
+              </div>
+              <div class="kyc-item">
+                <div class="kyc-avatar" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">FO</div>
+                <div class="kyc-info">
+                  <div class="kyc-name">Fatima Omar</div>
+                  <div class="kyc-doc">Utility Bill + Bank Statement</div>
+                </div>
+                <div class="kyc-meta">
+                  <div class="kyc-time">8 hrs ago</div>
+                  <div class="kyc-action">Review →</div>
+                </div>
+              </div>
+              <div class="kyc-item">
+                <div class="kyc-avatar" style="background:linear-gradient(135deg,#14b8a6,#0ea5e9)">TW</div>
+                <div class="kyc-info">
+                  <div class="kyc-name">Thomas Wren</div>
+                  <div class="kyc-doc">Enhanced Due Diligence</div>
+                </div>
+                <div class="kyc-meta">
+                  <div class="kyc-time">Yesterday</div>
+                  <div class="kyc-action">Review →</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── Bottom row ── -->
+        <div class="bottom-grid">
+
+          <!-- Activity feed -->
+          <div class="widget">
+            <div class="widget-head">
+              <h3>Recent Activity</h3>
+              <a class="see-all">See log →</a>
+            </div>
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-dot" style="background:var(--success)"></div>
+                <div>
+                  <div class="act-text"><span class="name">You</span> approved withdrawal #WD-8821 for Oliver Chen</div>
+                  <div class="act-time">10:42 AM</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:var(--warn)"></div>
+                <div>
+                  <div class="act-text"><span class="name">Sarah M.</span> flagged KYC document as unreadable — Amara Patel</div>
+                  <div class="act-time">9:15 AM</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:var(--accent)"></div>
+                <div>
+                  <div class="act-text">New deposit $18,500 from <span class="name">James Kowalski</span> via Wire</div>
+                  <div class="act-time">8:57 AM</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:var(--danger)"></div>
+                <div>
+                  <div class="act-text">SAR alert triggered for <span class="name">ACC-77430</span> — unusual deposit pattern</div>
+                  <div class="act-time">8:30 AM</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:var(--success)"></div>
+                <div>
+                  <div class="act-text"><span class="name">You</span> completed KYC verification for Ricardo Lopez</div>
+                  <div class="act-time">Yesterday, 5:12 PM</div>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot" style="background:var(--muted)"></div>
+                <div>
+                  <div class="act-text">Withdrawal #WD-8807 rejected — <span class="name">Elena Rossi</span> (AML hold)</div>
+                  <div class="act-time">Yesterday, 3:44 PM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="widget">
+            <div class="widget-head">
+              <h3>Quick Actions</h3>
+            </div>
+            <div class="qa-grid">
+              <button class="qa-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                Approve Withdrawal
+              </button>
+              <button class="qa-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                Verify KYC Doc
+              </button>
+              <button class="qa-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+                Upload Document
+              </button>
+              <button class="qa-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+                File SAR Report
+              </button>
+              <button class="qa-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+                Message Client
+              </button>
+              <button class="qa-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5v-2z"/></svg>
+                Export Report
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- /content -->
+
+    </div>
+    <!-- /main -->
+
+  </div>
+  <!-- /screen-dashboard -->
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
